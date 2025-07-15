@@ -25,8 +25,8 @@ RETURN ChunkInfo.text
 Example 4: How did Napoleon die?
 MATCH (Napoleon:Person '{{name: "Napoleon"}}')-[:HAS_SECTION]->(:Section '{{type: "Death"}}')-[:HAS_CHUNK]->(ChunkInfo:Chunk)
 RETURN ChunkInfo.text
-
-Don't use double curly bracket when generating Cypher. Had to do this in the examples because Python cannot escape single bracket.
+Do not use quotation mark outside curly bracket.
+Do not use double curly bracket when generating Cypher. Had to do this in the examples because Python cannot escape single bracket.
 
 Help:
 This is all existing property for Node Person and Section:
