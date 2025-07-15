@@ -33,7 +33,6 @@ def generate_cypher_query(
         input_variables=["schema", "question"],
         template=retrieval_qa_chat_prompt
     )
-
     # Create the QA chain using the provided graph and prompt.
     cypher_chain = GraphCypherQAChain.from_llm(
         ChatOllama(model="llama3:8b", temperature=0),

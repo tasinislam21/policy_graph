@@ -11,16 +11,22 @@ Note: Do not include any explanations or apologies in your responses.
 Do not include any text except the generated Cypher statement. Remember to correct the typo in names
 
 Example 1: What was the story of napoleon in the battle of waterloo?
-MATCH (Napoleon:Person {name: "Napoleon"})-[:RELATED_TO]->(waterloo:Event)-[:HAS_SECTION]->(info:Section)-[:HAS_CHUNK]->(ChunkInfo:Chunk)
+MATCH (Napoleon:Person '{{name: "Napoleon"}}')-[:RELATED_TO]->(waterloo:Event)-[:HAS_SECTION]->(info:Section)-[:HAS_CHUNK]->(ChunkInfo:Chunk)
 RETURN ChunkInfo.text
 
 Example 2: What was the story of the battle of waterloo?
-MATCH (waterloo:Event)-[:HAS_SECTION]->(info:Section {type: "General information"})-[:HAS_CHUNK]->(ChunkInfo:Chunk)
+MATCH (waterloo:Event)-[:HAS_SECTION]->(info:Section '{{type: "General information"}}')-[:HAS_CHUNK]->(ChunkInfo:Chunk)
 RETURN ChunkInfo.text
 
 Example 3: tell me about Talleyrand and napoleon in 5 lines
-MATCH (Talleyrand:Person)-[:RELATED_TO]->(Napoleon:Person)-[:HAS_SECTION]->(info:Section {type: "Career"})-[:HAS_CHUNK]->(ChunkInfo:Chunk)
+MATCH (Talleyrand:Person)-[:RELATED_TO]->(Napoleon:Person)-[:HAS_SECTION]->(info:Section '{{type: "Career"}}')-[:HAS_CHUNK]->(ChunkInfo:Chunk)
 RETURN ChunkInfo.text
+
+Example 4: How did Napoleon die?
+MATCH (Napoleon:Person '{{name: "Napoleon"}}')-[:HAS_SECTION]->(:Section '{{type: "Death"}}')-[:HAS_CHUNK]->(ChunkInfo:Chunk)
+RETURN ChunkInfo.text
+
+Don't use double curly bracket when generating Cypher. Had to do this in the examples because Python cannot escape single bracket.
 
 Help:
 This is all existing property for Node Person and Section:
@@ -66,6 +72,5 @@ Node Section Properties:
     type: "General Information"
 
 The question is:
-{question}
+{question}"""
 
-""" 
