@@ -43,7 +43,7 @@ def generate_cypher_query(
     )
 
     # Run the chain with the input question.
-    response = cypher_chain.run(question)
+    response = cypher_chain.invoke(question)
     
     # Format and return the Cypher query.
-    return textwrap.fill(response, 60)
+    return response

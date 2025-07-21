@@ -19,9 +19,14 @@ MATCH (:Crime '{{type: "burglary"}}')-[:HAS_CHECKLIST]->(:Checklist '{{type: "Vi
 RETURN ChunkInfo.StepID, ChunkInfo.text
 
 Example 3: I am at a burglary scene, the victim stated that they knew the suspect and made reports before. What should be my next step?
-MATCH (:Crime {type: "burglary"})-[:HAS_CHECKLIST]->(c:Checklist)-[:HAS_CHUNK]->(ChunkInfo:Chunk)
+MATCH (:Crime '{{type: "burglary"}}')-[:HAS_CHECKLIST]->(c:Checklist)-[:HAS_CHUNK]->(ChunkInfo:Chunk)
 WHERE c.type="Intelligence" OR c.type="Suspects" 
 RETURN ChunkInfo.StepID, ChunkInfo.text
+
+DO NOT USE SINGLE QUOTE ('') WHEN GENERATING CYPHER.
+DO NOT USE DOUBLE CURLY BRACKET ({{}}) WHEN GENERATING CYPHER.
+I had to use them because of python string formatting.
+Provide your answer in full, especially when giving out steps.
 
 Help:
 This is all existing property for Node Crime and Node Checklist:
@@ -30,46 +35,18 @@ Node Crime Properties: (will be adding more crimes in the future)
     type: "burglary" 
 
 Node Checklist Properties:
-    type: "Victims and Witnesses" (Use this if the questions is related to witness and victim)
-    type: "Scene"
+    type: "generic" 
+    type: "Victims and Witnesses" 
+    type: "Scene" (Use this if the questions is related to scene, entry and exit)
     type: "Suspects"
-    type: "Intelligence"
-Node Person Properties:
+    type: "Intelligence" (Use this for answering questions like detail gathering, identifying linked series offending)
 
-    name: "Talleyrand"
-    name: "Napoleon"
+    DO NOT USE parent_type
+    Feel free to use multiple node checklist
+Node Chunk Properties:
 
-Node Section Properties:
-
-    parent_name: "Battle_of_Waterloo"
-    type: "Consequence"
-
-    parent_name: "Battle_of_Waterloo"
-    type: "General Information"
-
-    parent_name: "Battle_of_Waterloo"
-    type: "Reason"
-
-    parent_name: "Battle_of_Waterloo"
-    type: "Combatant"
-
-    parent_name: "Talleyrand"
-    type: "Career"
-
-    parent_name: "Talleyrand"
-    type: "Death"
-
-    parent_name: "Talleyrand"
-    type: "General Information"
-
-    parent_name: "Napoleon"
-    type: "Career"
-
-    parent_name: "Napoleon"
-    type: "Death"
-
-    parent_name: "Napoleon"
-    type: "General Information"
+    text
+    StepID (order of the step)
 
 The question is:
 {question}"""
